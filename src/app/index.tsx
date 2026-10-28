@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { db } from "../../firebaseConfig";
 
@@ -55,6 +55,18 @@ export default function Index() {
     }
   }
 
+  function alterar2() {
+    try {
+      const docRef = doc(db, 'produtos', 'sRBYziYyfNurCKMzsHUF')
+      setDoc(docRef, {
+        nome: 'Ruffles Grande',
+        codBarras: '7891234567890'
+      })
+    } catch (e) {
+      Alert.alert('Erro', String(e))
+    }
+  }
+
   const router = useRouter();
 
   return (
@@ -75,8 +87,13 @@ export default function Index() {
       </Pressable>
 
       <Pressable
-        onPress={alterar}>
+        onPress={alterar2}>
         <Text style={styles.texto}>Alterar Produto</Text>
+      </Pressable>
+
+      <Pressable
+        onPress={()=>{router.navigate('/consultar_produtos')}}>
+        <Text style={styles.texto}>Tela de Consulta</Text>
       </Pressable>
     </View>
   );

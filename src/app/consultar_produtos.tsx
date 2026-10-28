@@ -35,6 +35,7 @@ export default function ConsultaProdutos() {
     const router = useRouter();
 
     function alterar(id: string){
+        //chamar a tela de alteração passando o ID
         router.push({
             pathname: '/alterar_produto',
             params: {
@@ -54,19 +55,19 @@ export default function ConsultaProdutos() {
                 data={lista}
                 renderItem={(item) => {
                     return (
-                        <View>
+                        <View style={styles.card}>
                             <Text>ID: {item.item.id}</Text>
                             <Text>NOME: {item.item.nome}</Text>
                             <Text>UNIDADE: {item.item.unidade}</Text>
                             <Text>PREÇO: {item.item.preco}</Text>
 
                             <Pressable
-                                onPress={() => { deletar(item.item.id) }}>
+                                onPress={()=>{deletar(item.item.id)}}>
                                 <Text style={styles.texto}>Del</Text>
                             </Pressable>
 
                             <Pressable
-                                onPress={() => { alterar(item.item.id) }}>
+                                onPress={()=>{alterar(item.item.id)}}>
                                 <Text style={styles.texto}>Alt</Text>
                             </Pressable>
                         </View>
@@ -84,5 +85,8 @@ const styles = StyleSheet.create({
     },
     texto: {
         fontSize: 20
+    },
+    card:{
+        borderWidth: 1
     }
 });
