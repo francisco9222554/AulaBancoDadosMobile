@@ -1,5 +1,5 @@
 type Produto = {
-  id: string,  
+  id?: string,  
   nome: string,
   preco: number,
   unidade: string

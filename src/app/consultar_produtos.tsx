@@ -62,12 +62,12 @@ export default function ConsultaProdutos() {
                             <Text>PREÇO: {item.item.preco}</Text>
 
                             <Pressable
-                                onPress={()=>{deletar(item.item.id)}}>
+                                onPress={()=>{deletar(item.item.id!)}}>
                                 <Text style={styles.texto}>Del</Text>
                             </Pressable>
 
                             <Pressable
-                                onPress={()=>{alterar(item.item.id)}}>
+                                onPress={()=>{alterar(item.item.id!)}}>
                                 <Text style={styles.texto}>Alt</Text>
                             </Pressable>
                         </View>
