@@ -1,101 +1,76 @@
 import { useRouter } from "expo-router";
-import { addDoc, collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import { db } from "../../firebaseConfig";
-
-type Produto = {
-  nome: string,
-  preco: number,
-  unidade: string
-}
+import { useState } from "react";
+import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Index() {
-
-  function inserir() {
-    const prod = {
-      nome: 'Bergamota',
-      preco: 7.99,
-      unidade: 'KG'
-    }
-
-    try {
-      addDoc(collection(db, 'produtos'), prod);
-      Alert.alert('Produto inserido');
-    } catch (e) {
-      Alert.alert('Erro', String(e));
-    }
-  }
-
-  async function consultar() {
-    const querySnapshot = await getDocs(collection(db, 'produtos'))
-    querySnapshot.docs.map((doc) => {
-      const prod = doc.data() as Produto;
-      console.log(doc.id + ' - ' + prod.nome)
-    })
-  }
-
-  async function deletar() {
-    try {
-      await deleteDoc(doc(db, 'produtos', 'gYkwhLMGQaWBAYhQchdC'))
-      Alert.alert('Produto removido')
-    } catch (e) {
-      Alert.alert('Erro', String(e))
-    }
-  }
-
-  function alterar() {
-    try {
-      const docRef = doc(db, 'produtos', 'sRBYziYyfNurCKMzsHUF')
-      updateDoc(docRef, {
-        nome: 'Ruffles Grande',
-        codBarras: '7891234567890'
-      })
-    } catch (e) {
-      Alert.alert('Erro', String(e))
-    }
-  }
-
-  function alterar2() {
-    try {
-      const docRef = doc(db, 'produtos', 'sRBYziYyfNurCKMzsHUF')
-      setDoc(docRef, {
-        nome: 'Ruffles Grande',
-        codBarras: '7891234567890'
-      })
-    } catch (e) {
-      Alert.alert('Erro', String(e))
-    }
-  }
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
   const router = useRouter();
 
+  function esqueceuSenha() {
+
+  }
+
+  function logar() {
+
+  }
+
+  function cadastrar() {
+    router.navigate('/cadastrar_usuario');
+  }
+
   return (
     <View style={styles.container}>
-      <Pressable
-        onPress={inserir}>
-        <Text style={styles.texto}>Inserir dado no banco</Text>
-      </Pressable>
 
-      <Pressable
-        onPress={consultar}>
-        <Text style={styles.texto}>Consultar Produtos</Text>
-      </Pressable>
+      <View style={styles.cabecalho}>
+        <Image
+          source={require('@/assets/images/passaro.jpg')}
+          style={styles.logo} />
+        <Text>LOGIN</Text>
+      </View>
 
-      <Pressable
-        onPress={deletar}>
-        <Text style={styles.texto}>Deletar Produto</Text>
-      </Pressable>
+      <View style={styles.corpo}>
+        <Text style={styles.tituloCampo}>E-mail</Text>
+        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          style={styles.campo}
+          placeholder="ana@gmail.com" />
 
-      <Pressable
-        onPress={alterar2}>
-        <Text style={styles.texto}>Alterar Produto</Text>
-      </Pressable>
+        <Text style={styles.tituloCampo}>Senha</Text>
+        <TextInput
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.campo}
+          secureTextEntry={true} />
 
-      <Pressable
-        onPress={()=>{router.navigate('/consultar_produtos')}}>
-        <Text style={styles.texto}>Tela de Consulta</Text>
-      </Pressable>
-    </View>
+        <Pressable
+          onPress={esqueceuSenha}>
+          <Text style={styles.esqueceuSenha}>Esqueceu a senha?</Text>
+        </Pressable>
+
+        <Pressable
+          onPress={logar}>
+          <View
+            style={styles.botaoEntrar}>
+            <Text style={styles.entrar}>Entrar</Text>
+          </View>
+        </Pressable>
+      </View>
+
+      <View style={styles.rodape}>
+        <Pressable
+          onPress={cadastrar}>
+          <View
+            style={[styles.botaoEntrar, styles.botaoCadastrar]}>
+            <Text style={styles.entrar}>Cadastrar-se</Text>
+          </View>
+        </Pressable>
+
+      </View>
+
+    </View >
   );
 }
 
@@ -103,9 +78,71 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
+
   texto: {
     fontSize: 20
+  },
+
+  cabecalho: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  logo: {
+    width: 200,
+    height: 200
+  },
+
+  titulo: {
+    fontSize: 30,
+    fontWeight: '700',
+    marginTop: 15
+  },
+
+  corpo: {
+
+  },
+
+  esqueceuSenha: {
+    marginTop: 5,
+    color: '#00a8ff',
+    textDecorationLine: 'underline',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowColor: 'black',
+    textShadowRadius: 1
+  },
+
+  rodape: {
+
+  },
+
+  tituloCampo: {
+    fontSize: 20,
+    marginVertical: 5
+  },
+
+  campo: {
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 300
+  },
+
+  botaoEntrar: {
+    backgroundColor: '#7DC343',
+    paddingHorizontal: 15,
+    paddingVertical: 5
+  },
+
+  entrar: {
+    color: 'white',
+    fontSize: 25,
+    fontStyle: 'italic',
+    fontWeight: 'bold'
+  },
+
+  botaoCadastrar: {
+    backgroundColor: '#3B77BC',
   }
 });
